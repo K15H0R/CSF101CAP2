@@ -3,41 +3,41 @@
 #STUDENT NUMBER:02230266
 ##############################################################################################
 #REFERENCE:
-#
-#
-#
-#
-#
-#
+#https://youtu.be/q2SGW2VgwAM?si=OsR2nCgeN4nrpuiK
+#https://youtu.be/xTh-ln2XhgU?si=s-QA5eRerZmswRjG
+#https://youtu.be/2TrDIbwasw8?si=_jqwIEQVKDkAY88A
+#https://youtu.be/BRssQPHZMrc?si=n2o1u8j0mjM9ep8b
+#Isah, J. (2024, March 20). How to build an online banking system – python object-oriented programming tutorial. freeCodeCamp.org. https://www.freecodecamp.org/news/how-to-build-an-online-banking-system-python-oop-tutorial/ 
+#tej.tantej.tan                      4, stormlifterstormlifter                      3, BubbleBubble                      961010 bronze badges, & StackMasterGeneralStackMasterGeneral                      1. (1957, February 1). How should I proceed with banking application in Python. Stack Overflow. https://stackoverflow.com/questions/6359991/how-should-i-proceed-with-banking-application-in-python 
 ###################################################################################################
 import os
 import random
 import string
 
 class Account:
-    def __init__(self, acc_number, pwd, acc_type, balance=0):
+    def __init__(self, acc_number, pwd, acc_type, balance=0): #pwp means password
         self.acc_number = acc_number
         self.pwd = pwd
         self.acc_type = acc_type
         self.balance = balance
 
-    def deposit(self, amount):
+    def deposit(self, amount):#depositing system
         if amount > 0:
             self.balance += amount
             print(f"Deposited: Nu{amount}. New Balance: Nu{self.balance}")
         else:
-            print("Invalid amount please be serious while putting amount. hope you have seen money.")
+            print("Invalid amount please be serious while putting amount")
 
-    def withdraw(self, amount):
+    def withdraw(self, amount):#withdrawing system
         if amount > 0 and amount <= self.balance:
             self.balance -= amount
             print(f"Withdrawn: Nu{amount}. New Balance: Nu{self.balance}")
         else:
-            print("sorry its disrespectful to say that you have Insufficient funds or invalid amount.")
+            print("Insufficient funds or invalid amount.")
 
-    def save_to_file(self, file_name='accounts.txt'):
+    def save_to_file(self, file_name='accounts.txt'):#txt file is been created to record the history of transaction 
         with open(file_name, 'a') as f:
-            f.write(f"{self.acc_number},{self.pwd},{self.acc_type},{self.balance}\n")
+            f.write(f"{self.acc_number},{self.pwd},{self.acc_type},{self.balance}\n")#detail will be stored in txt file
 
 class PersonalAccount(Account):
     def __init__(self, acc_number, pwd, balance=0):
@@ -48,12 +48,12 @@ class BusinessAccount(Account):
         super().__init__(acc_number, pwd, 'business', balance)
 
 def generate_acc_number():
-    return ''.join(random.choices(string.digits, k=5))
+    return ''.join(random.choices(string.digits, k=5))#random number setting for account number
 
 def generate_pwd():
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=4))
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=4))#random lettter for password
 
-def load_accounts(file_name='accounts.txt'):
+def load_accounts(file_name='accounts.txt'):#review of txt file while accessing the account
     accounts = {}
     if os.path.exists(file_name):
         with open(file_name, 'r') as f:
@@ -78,16 +78,16 @@ def login(accounts):
         print("Invalid acc. number please be careful while inserting acc. number.")
         return None
 
-def send_money(accounts, from_account):
+def fund_transfer(accounts, from_account):#fund transfer system
     to_acc_number = input("Enter the recipient's account number: ")
     amount = float(input("Enter the amount to send: "))
     if to_acc_number in accounts:
         if from_account.balance >= amount:
             from_account.withdraw(amount)
             accounts[to_acc_number].deposit(amount)
-            print(f"Sent Nu{amount} to {to_acc_number}")
+            print(f"transfered Nu{amount} to {to_acc_number}")
         else:
-            print("sorry its direspectful to say but you have Insufficient funds.")
+            print("Insufficient funds.")
     else:
         print("Recipient account not found.")
 
@@ -141,7 +141,7 @@ def main():
                         amount = float(input("Enter amount to withdraw: "))
                         account.withdraw(amount)
                     elif acc_choice == '4':
-                        send_money(accounts, account)
+                        fund_transfer(accounts, account)
                     elif acc_choice == '5':
                         del accounts[account.acc_number]
                         print("Account deleted successfully.")
